@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Assignment 1}
+\author{Jordan Murray}
+\date{Due: February 15, 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Stack}
+
+\noindent
+The StackMurray class, implements a Stack data structure using the NodeMurray Linked List.
+
+\vspace{2em}
+    \hspace*{1.5em}Line 9: private NodeMurray myHead;
+\vspace{2em}
+
+\noindent
+This class has a null constructor which sets the Head value to null
+
+\vspace{2em}
+    \hspace*{1.5em}Line 13: myHead = null;\\
+\vspace{2em}
+
+\noindent
+The next method of this class is called isEmpty(). This checks if there are any values in the current stack. It will return true if the head of the stack is equal to null. Otherwise, the stack is not empty.
+
+\vspace{2em}
+ Line 17: public boolean isEmpty()\{\\
+	\hspace*{1.5em}Line 18:\hspace*{1em} boolean ans = false;\\
+	\hspace*{1.5em}Line 19: \hspace*{1em} if(myHead == null)\\
+	\hspace*{1.5em}Line 20: \hspace*{2em}ans = true;\\
+    \hspace*{1.5em}Line 21: \\
+	\hspace*{1.5em}Line 22:\hspace*{1em} return ans;\\
+	\hspace*{1.5em}Line 23: \}\\
+\vspace{2em}
+
+\noindent
+The next method of this class is called peek(). This method is used to get the data of the head of the stack. It checks if the stack is not empty and if it is not, it will get the data of the head and if it is empty, it will return a space char.  
+
+\vspace{2em}
+Line 26: public char peek()\{\\
+    \hspace*{1.5em}Line 27: \hspace*{1em}if(!isEmpty())\{\\
+    \hspace*{1.5em}Line 28: \hspace*{2em}return myHead.getData();\\
+    \hspace*{1.5em}Line 29:\hspace*{1em} \}else\{\\
+    \hspace*{1.5em}Line 30: \hspace*{2em} return ' ';\\
+    \hspace*{1.5em}Line 31: \}\\
+\vspace{2em}
+
+\noindent
+The next method is traverse(). This method has one variable of the type NodeMurray and sets the value equal to myHead which is the top of the stack. Then it loops through all of the nodes in the stack without popping them, gets all of the values of every node, and prints them out. This method was very helpful when debugging my program, because it printed the whole stack, so I could see what values were on it. 
+
+\vspace{2em}
+Line 35: public void traverse()\{\\
+    \hspace*{1.5em}Line 36:\hspace*{1em} NodeMurray currentNode = myHead;\\
+    \hspace*{1.5em}Line 37:\hspace*{1em} while(currentNode !=null)\{\\
+    \hspace*{1.5em}Line 38: \hspace*{2em} System.out.print(currentNode.getData());\\
+    \hspace*{1.5em}Line 39:\hspace*{2em} currentNode = currentNode.getNext();\\
+    \hspace*{1.5em}Line 40:\hspace*{1em} \}\\
+    \hspace*{1.5em}Line 41: \hspace*{1em}System.out.println();\\
+    \hspace*{1.5em}Line 42: \}\\
+\vspace{2em}
+
+\noindent
+The next method of the StackMurray class is push(). This method's job is to add a new node onto a stack. It has one parameter which is a char value. This char value becomes the data of the new node. Once the data has been set, the new node's "next" value gets set to the previous head of the stack, and then the new node becomes the new head of the stack.
+
+\vspace{2em}
+Line 45: public void push(char value)\{\\
+  	\hspace*{1.5em}Line 46:\hspace*{1em} NodeMurray newGuy = new NodeMurray();\\
+  	\hspace*{1.5em}Line 47:\hspace*{1em} newGuy.setData(value);\\
+  	\hspace*{1.5em}Line 48: \hspace*{1em}newGuy.setNext(myHead);\\
+  	\hspace*{1.5em}Line 49: \hspace*{1em}myHead = newGuy;\\
+    \hspace*{1.5em}Line 50: \}\\
+\vspace{2em}
+
+\noindent
+The last method of this class is called pop(). This method is used to remove a node from the top of the stack. First it checks if the stack is empty, so it doesn't try to remove something that isn't there. If it is not empty, then it stores the data in a variable, and sets the head to the current heads "next" value. It then returns the variable ans which holds the data of the node that was just removed from the stack.
+
+\vspace{2em}
+Line 54: public char pop()\{\\
+    \hspace*{1.5em}Line 55: \hspace*{1em}char ans = 0;\\
+	\hspace*{1.5em}Line 56: \hspace*{1em}if(!isEmpty())\{\\
+	\hspace*{1.5em}Line 57: \hspace*{2em}ans = myHead.getData();\\
+	\hspace*{1.5em}Line 58: \hspace*{2em} myHead = myHead.getNext();\\
+	\hspace*{1.5em}Line 59: \hspace*{1em} \}\\
+	\hspace*{1.5em}Line 60: \hspace*{1em}return ans;\\
+    \hspace*{1.5em}Line 61: \}\\
+    \vspace{2em}
+
+\section{Queue}
+The QueueMurray class, implements the queue data structure also using the NodeMurray Linked List. 
+
+\vspace{2em}
+    \hspace*{1.5em}Line 9: private NodeMurray myHead;
+    \hspace*{1.5em}Line 10: private NodeMurray myTail;
+\vspace{2em}
+
+\noindent
+This class has a null constructor which sets the Head and Tail value to null
+
+\vspace{2em}
+Line 14: myHead = null;\\
+    \hspace*{1.5em}Line 15: myTail = null;\\
+\vspace{2em}
+
+\noindent
+The next method of this class is called isEmpty(). This checks if there are any values in the current queue. It will return true if the tail of the stack is equal to null. Otherwise, the queue is not empty.
+
+\vspace{2em}
+Line 19: public boolean isEmpty()\{\\
+    \hspace*{1.5em}Line 20:\hspace*{1em} boolean ans = false;\\
+    \hspace*{1.5em}Line 21: \hspace*{1em}if(myTail == null)\\
+	\hspace*{1.5em}Line 22: \hspace*{2em} ans = true;\\
+    \hspace*{1.5em}Line 23: \\
+	\hspace*{1.5em}Line 24: \hspace*{1em}return ans;\\
+    \hspace*{1.5em}Line 25: \}\\
+\vspace{2em}
+
+\noindent
+The next method of this class is called peek(). This method is used to get the data of the head of the queue. It checks if the queue is not empty and if it is not, it will get the data of the head and if it is empty, it will return a space char.  
+
+\vspace{2em}
+Line 28: public char peek()\{\\
+    \hspace*{1.5em}Line 29:\hspace*{1em} if(!isEmpty())\{\\
+    \hspace*{1.5em}Line 30: \hspace*{2em}return myHead.getData();\\
+    \hspace*{1.5em}Line 31: \hspace*{1em}\}else\{\\
+    \hspace*{1.5em}Line 32: \hspace*{2em} return ' ';\\
+    \hspace*{1.5em}Line 33: \}\\
+\vspace{2em}
+
+\noindent
+The next method is traverse(). This method has one variable of the type NodeMurray and sets the value equal to myHead which is the top of the stack. Then it loops through all of the nodes in the stack without popping them, gets all of the values of every node, and prints them out. This method was very helpful when debugging my program, because it printed the whole stack, so I could see what values were on it. 
+
+\vspace{2em}
+Line 37: public void traverse()\{\\
+    \hspace*{1.5em}Line 38:\hspace*{1em} NodeMurray currentNode = myHead;\\
+    \hspace*{1.5em}Line 39: \hspace*{1em}while(currentNode !=null)\{\\
+    \hspace*{1.5em}Line 40:  \hspace*{2em}System.out.print(currentNode.getData());\\
+    \hspace*{1.5em}Line 41:\hspace*{2em} currentNode = currentNode.getNext();\\
+    \hspace*{1.5em}Line 42:\hspace*{1em} \}\\
+    \hspace*{1.5em}Line 43: \hspace*{1em}System.out.println();\\
+    \hspace*{1.5em}Line 44: \}\\
+\vspace{2em}
+
+\noindent
+The next method of this class is enqueue. This is used to add a new node to the end of the queue. It takes in one parameter of the type char, and sets that value to the newly created node. If the queue is empty, then both the head and tail point to the new node because it will be the only value in the queue. If it is not empty, then the current tail's "next value gets set to the new node, and then the new node becomes the new tail or end of the queue. 
+
+\vspace{2em}
+Line 47: public void enqueue(char value)\{\\
+    \hspace*{1.5em}Line 48: \hspace*{1em}NodeMurray newGuy = new NodeMurray();\\
+    \hspace*{1.5em}Line 49: \hspace*{1em}newGuy.setData(value);\\
+    \hspace*{1.5em}Line 50:  \hspace*{1em}if(isEmpty())\{\\
+	\hspace*{1.5em}Line 51:  \hspace*{2em}myHead = newGuy;\\
+    \hspace*{1.5em}Line 52: \hspace*{2em}myTail = newGuy;\\
+    \hspace*{1.5em}Line 53: \hspace*{1em}\}else\{\\
+    \hspace*{1.5em}Line 54: \hspace*{2em} myTail.setNext(newGuy);\\
+    \hspace*{1.5em}Line 55:  \hspace*{2em} myTail = newGuy;\\
+    \hspace*{1.5em}Line 56:\hspace*{1em} \}\\
+    \hspace*{1.5em}Line 57: \}\\
+\vspace{2em}
+
+\noindent
+The last method in the QueueMurray Class is called dequeue. This method will take the head of the queue, and store the data in a variable. It then sets the head to the current head's "next" value. There is one condition where if the head and tail of the queue are equal, meaning there is only one item in the queue, then the tail should be set to null. It then returns the answer variable which holds the data of the node that was just removed from the queue.
+
+\vspace{2em}
+Line 61: public char dequeue()\{\\
+    \hspace*{1.5em}Line 62:  \hspace*{1em}char ans = myHead.getData();\\
+	\hspace*{1.5em}Line 63: \hspace*{1em}myHead = myHead.getNext();\\
+    \hspace*{1.5em}Line 64: \hspace*{1em}if(myHead == myTail)\{\\
+    \hspace*{1.5em}Line 65: \hspace*{2em}myTail = null;\\
+    \hspace*{1.5em}Line 66:\hspace*{1em} \}\\
+	\hspace*{1.5em}Line 67:\hspace*{1em} return ans;\\
+    \hspace*{1.5em}Line 68: \}\\
+\vspace{2em}
+
+\end{document}
