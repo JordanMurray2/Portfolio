@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Welcome to Riddle Run!</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <h1>Riddle Run</h1>
+    <p>Press space to start...</p>
+    <audio autoplay loop id="indexAudio" src="audio/Fallen Angels.mp3">Browser does not support this file.</audio>
+    <script>
+      // function to load the in game menu
+      function startGame(){
+        window.location.replace("/menu");
+      }
+
+      //event listener to make spacebar trigger the above function
+	    document.body.addEventListener("keyup", function(e){
+      if (e.key == " ")
+        startGame();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Credits</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/credits.css">
+  </head>
+  <body>
+    <h1>Credits</h1>
+    <p>Developers: Jordan Murray & James Jenkins</p>
+    <p>Title Page Image: Sprite Land</p>
+    <p>Title Page Audio: Purple Planet Music</p>
+    <p>Menu Page Audio: Incompetency </p>
+    <p>Maze Page Audio: Purple Planet Music</p>
+    <p>About Page Audio: Incompetency </p>
+    <p>Leaders Page Audio: Incompetency </p>
+    <p>Credits Page Audio: Purple Planet Music </p>
+    <p><div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy"
+    title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/"
+    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"
+    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></p>
+    <audio autoplay loop src="audio/Fallen Angels.mp3">Browser does not support this file.</audio>
+     <script>
+     //return to the menu
+      function menuReturn(){
+        window.location.replace("/menu");
+      }
+
+      //event listener to make spacebar trigger the above function
+	    document.body.addEventListener("keyup", function(e){
+      if (e.key == " ")
+        menuReturn();
+      });
+    </script>
+  </body>
+</html>

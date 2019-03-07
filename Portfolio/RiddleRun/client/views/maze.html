@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Maze Escape</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css" >
+    <!--<script src="path/menu.html"></script>-->
+  </head>
+  <body>
+    <main>
+    <!-- wall images for the page -->
+      <img src="images/wall-left.png" alt="wall to the left">
+      <img src="images/wall-ahead.png" alt="wall ahead">
+      <img src="images/wall-right.png" alt="wall to the right">
+      <div id="playerStatus">
+      </div>
+      <audio autoplay loop src="audio/Windswept.mp3">Browser does not support this file.</audio>
+      <form onsubmit="return false;">
+        <fieldset id="items"></fieldset>
+      </form>
+     <div id="obstacles">
+       <p>Obstacle</p>
+     </div>
+    </main>
+    <nav>
+      <form onsubmit="return false;">
+	    <fieldset>
+	      <input name="fwd" type="image" src="images/arrow.png" alt="move forward" onclick="moveFwd()">
+	      <input name="rev" type="image" src="images/arrow.png" alt="turn around"  onclick="turnAround()">
+	      <input name="leftkey" type="image" src="images/arrow.png" alt="move left" onclick="turnLeft()">
+	      <input name="rightkey" type="image" src="images/arrow.png" alt="move right" onclick="turnRight()">
+	    </fieldset>
+      </form>
+    </nav>
+    <aside>
+      <h1>Items</h1>
+      <form onsubmit="return false;">
+        <fieldset id="inventory">
+        </fieldset>
+      </form>
+    </aside>
+    <script>
+      //return to the menu
+      function menuReturn(){
+        window.location.replace("/menu");
+      }
+
+      function leaderboardReturn(){
+        window.location.replace("/leaders")
+      }
+
+      //event listener to make spacebar return user to the menu
+	    document.body.addEventListener("keyup", function(e){
+      if (e.key == " ")
+        menuReturn();
+      });
+
+    //retrieve player ID from sign in
+    var playerId = sessionStorage.getItem("playerId");
+    console.log(sessionStorage.getItem("playerId"));
+    var player, room, items, inventory, obstacle;
+
+    //initial loading of game information from the server on entrance to the maze view
+    window.onload = function() {
+      fetch("http://localhost:3000/api/players/"+ playerId)
+        .then((res) => res.json())
+        .then(function(json){
+          player = json;
+          console.log(player);
+          fetch("http://localhost:3000/api"+player.location)
+            .then((res) => res.json())
+            .then(loadRoom);
+          fetch("http://localhost:3000/api/items?owner="+player.location)
+            .then((res) => res.json())
+            .then(loadItems);
+        });
+      fetch("http://localhost:3000/api/items?owner=/players/"+playerId)
+        .then((res) => res.json())
+        .then(loadInventory);
+    }
+
+      //Handles player turning to the left
+      function turnLeft() {
+        switch (player.dir) {
+          case "north": player.dir = "west"; break;
+          case "south": player.dir = "east"; break;
+          case "east": player.dir = "north"; break;
+          case "west": player.dir = "south"; break;
+        }
+
+        //Update the server
+        fetch("http://localhost:3000/api/players/"+playerId, {
+              method:"PATCH",
+              body: JSON.stringify({"attrib":"dir","value":player.dir}),
+              headers: {
+                "Content-type": "application/json"
+              }});
+        console.log("turned left");
+        // finally, be sure to re-render the room to update the view
+        renderRoom(room);
+      }
+
+      //Handles the player turning to the right
+      function turnRight() {
+        switch(player.dir){
+          case "north": player.dir = "east"; break;
+          case "south": player.dir = "west"; break;
+          case "east": player.dir = "south"; break;
+          case "west": player.dir = "north"; break;
+        }
+
+        //Update the server
+        fetch("http://localhost:3000/api/players/"+playerId, {
+              method:"PATCH",
+              body: JSON.stringify({"attrib":"dir","value":player.dir}),
+              headers: {
+                "Content-type": "application/json"
+              }});
+          console.log("turned right");
+          // finally, be sure to render the room again to update the view
+          renderRoom(room);
+        }
+
+      //Handles the player turning to the rear
+      function turnAround() {
+        switch (player.dir){
+          case "north": player.dir = "south"; break;
+          case "south": player.dir = "north"; break;
+          case "east": player.dir = "west"; break;
+          case "west": player.dir = "east"; break;
+        }
+
+        //Update the server
+        fetch("http://localhost:3000/api/players/"+playerId, {
+              method:"PATCH",
+              body: JSON.stringify({"attrib":"dir","value":player.dir}),
+              headers: {
+                "Content-type": "application/json"
+              }});
+        // finally, be sure to render the room again to update the view
+        renderRoom(room);
+      }
+
+      //Handles moving the player forward
+      function moveFwd() {
+        switch(player.dir){
+          case "north": room.northWall ? alert("Are you blind? There is a wall in front of you!"):(player.location = "/cells/" + (room.x - 1) + "/" + room.y, player.steps++, player.health--); break;
+          case "south": room.southWall ? alert("Are you blind? There is a wall in front of you!"):(player.location = "/cells/" + (room.x + 1) + "/" + room.y, player.steps++, player.health--); break;
+          case "east": room.eastWall ? alert("Are you blind? There is a wall in front of you!"):(player.location = "/cells/" + room.x + "/" + (room.y + 1), player.steps++, player.health--); break;
+          case "west": room.westWall ? alert("Are you blind? There is a wall in front of you!"):(player.location = "/cells/" + room.x + "/" + (room.y - 1), player.steps++, player.health--); break;
+        }
+        //Update the player's location on the server side
+        fetch("http://localhost:3000/api/players/"+playerId, {
+            method:"PATCH",
+            body: JSON.stringify({"attrib":"location","value":player.location}),
+            headers: {
+            "Content-type": "application/json"
+        }});
+        //Update the player's health on the server side
+        fetch("http://localhost:3000/api/players/"+playerId, {
+            method:"PATCH",
+            body: JSON.stringify({"attrib":"health","value":player.health}),
+            headers: {
+            "Content-type": "application/json"
+        }});
+        //Update the player's step count on the server side
+        fetch("http://localhost:3000/api/players/"+playerId, {
+            method:"PATCH",
+            body: JSON.stringify({"attrib":"steps","value":player.steps}),
+            headers: {
+            "Content-type": "application/json"
+        }});
+        //Re-render the room with the player's new location
+        fetch("http://localhost:3000/api"+player.location)
+            .then((res) => res.json())
+            .then(loadRoom);
+      }
+
+      //loads room information from the server and calls functions for displaying it in the user's view
+      function loadRoom(json) {
+        console.log(json);
+        room = json;
+        console.log(room);
+        renderRoom(room);
+
+        fetch("http://localhost:3000/api/items?owner="+player.location)
+          .then((res) => res.json())
+          .then(loadItems);
+
+        fetch("http://localhost:3000/api/items?owner=/players/"+playerId)
+          .then((res) => res.json())
+          .then(loadInventory);
+      }
+
+      //renders the user's view of the room
+      function renderRoom(room) {
+        let walls = document.querySelectorAll("main img");
+        switch (player.dir) {
+        case "north":
+          walls[0].src = room.westWall  ? "images/stoneWall-left.png":"images/no-wall.png";
+          walls[1].src = room.northWall ? "images/stoneWall.png":"images/no-wall.png";
+          walls[2].src = room.eastWall  ? "images/stoneWall-right.png":"images/no-wall.png";
+          break;
+        case "south":
+          walls[0].src = room.eastWall  ? "images/stoneWall-left.png":"images/no-wall.png";
+          walls[1].src = room.southWall ? "images/stoneWall.png":"images/no-wall.png";
+          walls[2].src = room.westWall  ? "images/stoneWall-right.png":"images/no-wall.png";
+          break;
+        case "east":
+          walls[0].src = room.northWall ? "images/stoneWall-left.png":"images/no-wall.png";
+          walls[1].src = room.eastWall  ? "images/stoneWall.png":"images/no-wall.png";
+          walls[2].src = room.southWall ? "images/stoneWall-right.png":"images/no-wall.png";
+          break;
+        case "west":
+          walls[0].src = room.southWall ? "images/stoneWall-left.png":"images/no-wall.png";
+          walls[1].src = room.westWall  ? "images/stoneWall.png":"images/no-wall.png";
+          walls[2].src = room.northWall ? "images/stoneWall-right.png":"images/no-wall.png";
+          break;
+        }
+        walls.forEach(function(wall,index){
+          wall.removeEventListener("click", message);
+          if (wall.src !== "http://localhost:3000/images/no-wall.png"){
+            wall.addEventListener("click", message);
+            console.log("wall " +index+" recieved event listener");
+          }
+        });
+
+        displayPlayer();
+        loadObstacle();
+      }
+
+      //displays the current obstacle the player is facing, if any.
+	    function loadObstacle(){
+        fetch("http://localhost:3000/api/obstacles?location="+player.location)
+          .then((res)=>res.json())
+          .then(function(json){
+            console.log(json);
+            obsDisplay = document.querySelector("#obstacles");
+            while(obsDisplay.hasChildNodes()){
+              obsDisplay.removeChild(obsDisplay.lastChild);
+            }
+            json.forEach(function(obs){
+              var elem = document.createElement("p");
+              var text = document.createTextNode(obs.description);
+              elem.appendChild(text);
+              obsDisplay.appendChild(elem);
+              obstacle = obs;
+            })
+          });
+      }
+
+      //displays the player's status information such as step count, health, location, etc.
+      function displayPlayer(){
+          display = document.querySelector("#playerStatus");
+          while(display.hasChildNodes()){
+            display.removeChild(display.lastChild);
+          }
+          var elem1 = document.createElement("p");
+          var node1 = document.createTextNode("Health: " + player.health);
+          var elem2 = document.createElement("p");
+          var node2 = document.createTextNode("Steps: " + player.steps);
+          var elem3 = document.createElement("p");
+          var node3 = document.createTextNode("Location: " + player.location);
+          var elem4 = document.createElement("p");
+          var node4 = document.createTextNode("Direction: " + player.dir);
+          var elem5 = document.createElement("p");
+          var node5 = document.createTextNode("Score: " + player.score);
+          elem1.appendChild(node1);
+          display.appendChild(elem1);
+          elem2.appendChild(node2);
+          display.appendChild(elem2);
+          elem3.appendChild(node3);
+          display.appendChild(elem3);
+          elem4.appendChild(node4);
+          display.appendChild(elem4);
+          elem5.appendChild(node5);
+          display.appendChild(elem5);
+
+          if(player.health <= 0) {
+           alert("You Lose!");
+           leaderboardReturn();
+           fetch("http://localhost:3000/api/players/"+ playerID, {method: "DELETE"})
+          }
+      }
+
+      //loads the items in the cell
+      function loadItems(json) {
+        populateItems(json, document.querySelector("#items"), takeItem);
+        console.log("loaded items");
+      }
+
+      //loads the items in the player's inventory
+      function loadInventory(json) {
+        populateItems(json, document.querySelector("#inventory"), useItem);
+        console.log("loaded inventory");
+      }
+
+      //displays the appropriate items in the user's view
+      function populateItems(items, container, listener) {
+        // remove all existing children
+        while (container.hasChildNodes()) {
+          container.removeChild(container.lastChild);
+        }
+        // add new children for each item
+        items.forEach(function(itm){
+          var elem = document.createElement("input");
+          elem.type = "image";
+          elem.name = itm.name;
+          elem.src  = "/images/"+itm.name+".png"
+          elem.alt  = itm.description;
+          elem.json = itm;
+          elem.addEventListener("click", listener);
+          container.appendChild(elem);
+        });
+      }
+
+      //event handler for the user to pick up an item
+      function takeItem(e) {
+        var item = e.target;
+        var inventory = document.querySelector("#inventory");
+        console.log("taking item", item.name);
+        console.log("http://localhost:3000/api/items/"+item.json.id);
+        fetch("http://localhost:3000/api/items/"+item.json.id, {
+              method:"PATCH",
+              body: '{"attrib":"owner","value":"/players/'+playerId+'"}',
+              headers: {
+                "Content-type": "application/json"
+              }})
+          .then(function(res){
+            console.log(res.status);
+            if (res.status == 204) {
+              inventory.appendChild(item);
+              item.removeEventListener("click", takeItem);
+              item.addEventListener("click", useItem);
+              console.log("took", item.name);
+            }
+          });
+      }
+
+      //event handler for the player to use an item in their inventory
+      function useItem(e){
+        var item = e.target;
+        var inventory = document.querySelector('#inventory');
+        let solution = 'undefined'
+        if (typeof obstacle !== 'undefined'){
+          solution = obstacle.solution
+        }
+        if(item.name === solution){
+          fetch("http://localhost:3000/api/items/"+item.json.id, {
+            method:"PATCH",
+            body: '{"attrib":"owner","value":"undefined"}',
+            headers: {"Content-type":"application/json"}
+          })
+          .then(function(res){
+            if(res.status == 204){
+              inventory.removeChild(item);
+              item.removeEventListener("click",useItem);
+              console.log("used",item.name);
+            }
+          });
+          fetch("http://localhost:3000/api/obstacles/"+obstacle.id, {
+            method:"PATCH",
+            body: '{"attrib":"location","value":"undefined"}',
+            headers: {"Content-type":"application/json"}
+          })
+          .then(function(){
+            alert("You solved the puzzle");
+            //fetch check win;
+            fetch("http://localhost:3000/api/obstacles/win", {method:"GET"})
+            .then((res) => res.json())
+            .then((json) => {
+              console.log(json);
+              if(json == true){
+                alert("You Won the game!");
+                player.score = player.score + 100;
+                fetch("http://localhost:3000/api/players/"+playerId, {
+                  method:"PATCH",
+                  body: JSON.stringify({"attrib":"score","value":player.score}),
+                  headers: {"Content-type": "application/json"}
+                })
+                .then(leaderboardReturn);
+              }else{
+                player.score = player.score + 50;
+                fetch("http://localhost:3000/api/players/"+playerId, {
+                  method:"PATCH",
+                  body: JSON.stringify({"attrib":"score","value":player.score}),
+                  headers: {"Content-type": "application/json"}
+                })
+                .then(loadObstacle);
+              }
+            });
+          });
+        }else if(item.name == "water") {
+          fetch("http://localhost:3000/api/items/"+item.json.id, {
+            method:"PATCH",
+            body: '{"attrib":"owner","value":"undefined"}',
+            headers: {"Content-type":"application/json"}
+          })
+          .then(function(res){
+            if(res.status == 204){
+              player.health = player.health + 10;
+              inventory.removeChild(item);
+              item.removeEventListener("click",useItem);
+              if(player.health > 100) {
+                player.health = 100;
+              }
+            }
+          });
+        }else{
+          alert("Cannot use that item here.");
+          player.health = player.health - 10;
+          fetch("http://localhost:3000/api/players/"+playerId, {
+            method:"PATCH",
+            body: JSON.stringify({"attrib":"health","value":player.health}),
+            headers: {
+              "Content-type": "application/json"
+            }});
+        }
+      }
+
+      //Handles adding messages to the walls in a cell
+      function message(e){
+        var messages = "";
+        var dir;
+        wall = e.target;
+
+        //Determine which wall the player wishes to write on
+        switch(wall.alt){
+          case "wall to the left":
+            if(player.dir == "north"){
+              messages = room.westMSG;
+              dir = "west";
+            }
+            else if(player.dir == "south"){
+              messages = room.eastMSG;
+              dir = "east";
+            }
+            else if(player.dir == "east"){
+              messages = room.northMSG;
+              dir = "north";
+            }
+            else{
+              messages = room.southMSG;
+              dir = "south";
+            }
+          break;
+           case "wall to the right":
+             if(player.dir == "north"){
+               messages = room.eastMSG;
+               dir = "east";
+             }
+             else if(player.dir == "south"){
+               messages = room.westMSG;
+               dir = "west";
+             }
+             else if(player.dir == "east"){
+               messages = room.southMSG;
+               dir = "south";
+             }
+             else{
+               messages = room.northMSG;
+               dir = "north";
+             }
+           break;
+           case "wall ahead":
+             if(player.dir == "north"){
+               messages = room.northMSG;
+               dir = "north";
+             }
+             else if(player.dir == "south"){
+               messages = room.southMSG;
+               dir = "south";
+             }
+             else if(player.dir == "east"){
+               messages = room.eastMSG;
+               dir = "east";
+             }
+             else{
+               messages = room.westMSG;
+               dir = "west";
+             }
+           break;
+         }
+
+        //prompt with list and ask to add a new message
+        if(messages == null){
+          messages = '';
+        }
+        let newMessage = prompt(String(messages));
+        console.log(newMessage);
+        if(newMessage !== null && newMessage !== ''){
+          fetch("http://localhost:3000/api"+player.location, {
+            method: "PUT",
+            body: JSON.stringify({"dir":dir, "msg":newMessage}),
+            headers: {"Content-type":"application/json"}
+          })
+          .then(() =>{
+            fetch("http://localhost:3000/api"+player.location)
+              .then((res) => res.json())
+              .then(loadRoom);
+          });
+
+        }
+        if(newMessage === ''){
+          alert("Cannot add an empty message");
+        }
+      };
+
+    </script>
+  </body>
+</html>

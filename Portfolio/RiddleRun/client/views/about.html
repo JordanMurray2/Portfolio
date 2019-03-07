@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>How to Play</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/about.css">
+  </head>
+  <body>
+    <h1>About the Game</h1>
+    <h2>BackGround:<h2>
+    <p id="background">You went to visit an old pyramid in ancient Egypt. You entered and now the only way
+      out is to find your way through the pyramid maze. There are multiple hieroglyphics
+      along the walls, but some letters are hard to make out.</p>
+    <h2>How to Play:</h2>
+    <p><ol>
+      <li>Make your way through the maze and look for the hieroglyphic clues</li><br>
+      <li>Figure out the missing letter(s) in the puzzle to unlock the path</li><br>
+      <li>Find your way out of the pyramid as fast as you can!</li><br>
+    </ol></p>
+    <audio autoplay loop src="audio/Trail Of The Incas.mp3">Browser does not support this file.</audio>
+    <script>
+     //return to the menu
+      function menuReturn(){
+        window.location.replace("/menu");
+      }
+
+      //event listener to make spacebar trigger the above function
+	    document.body.addEventListener("keyup", function(e){
+      if (e.key == " ")
+        menuReturn();
+      });
+    </script>
+  </body>
+</html>

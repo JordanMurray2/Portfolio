@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Welcome to Riddle Run!</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/menu.css">
+  </head>
+  <body>
+    <h1>Menu</h1>
+    <ol>
+      <li id="enter">Enter the Maze</li>
+      <li id="returnMaze">Return to the Maze</li>
+      <li id="instruction">How to play</li>
+      <li id="leaderBoard">LeaderBoard</li>
+      <li id="toggle">Toggle Audio <br>
+        <audio loop id="titleAudio" src="audio/Doomed Romance.mp3">Browser does not support this file.</audio>
+        <button id="play" onClick="titleAudio.onPause()">On</button>
+        <button id="pause" onClick="titleAudio.onPlaying()">Off</button>
+      </li>
+      <li id="credit">Credits</li>
+    </ol>
+    <script>
+      // function to create a new player and load the in game view
+      function startGame(){
+        let uname = prompt("Enter a username:");
+        if(uname !== null){
+          fetch("http://localhost:3000/api/accounts", {
+            method:"POST",
+            body:JSON.stringify({"name":uname}),
+            headers:{"Content-type":"application/json"}
+          })
+            .then(function(res){
+              fetch("http://localhost:3000/api/accounts")
+                .then((res)=>res.json())
+                .then((json)=>{
+                  console.log(json);
+                  sessionStorage.setItem("playerId", json.length); //stores the players ID for the maze view to use
+                  enterMaze();
+                });
+            });
+        }
+      };
+
+      //Previous players can sign in and resume their game
+      function continueGame(){
+        let username = prompt("Enter your username: ");
+        if(username !== null){
+          fetch("http://localhost:3000/api/accounts?name=" + username)
+              .then((res)=>res.json())
+              .then((json)=>{
+                if (json.length === 0){
+                  console.log("Alert!");
+                  validationFailed();
+                }
+                if (json[0].name === username){
+                  sessionStorage.setItem("playerId", json[0].id);
+                  enterMaze();
+                }
+              });
+        }
+        else{
+          console.log("Alert!");
+          validationFailed();
+        }
+      };
+
+      function enterMaze(){
+        window.location.replace("/maze");
+      }
+
+      function validationFailed(){
+        console.log("Alert");
+        alert("Unregistered username");
+      }
+
+      //function to send user to file with instructions
+      function howToPlay() {
+        window.location.replace("/about");
+      }
+
+      //sends user to leaderboard page
+      function leaderBoard() {
+        window.location.replace("/leaders");
+      }
+
+      //sends user to the credits page
+      function credits() {
+        window.location.replace("/credits");
+      }
+
+      //allows user to press number keys to choose menu item
+      function menu(e) {
+        var num = e.key; // get the clicked element
+        switch(num){
+          case '1':
+            startGame();
+            break;
+          case '2':
+            continueGame();
+            break;
+          case '3' :
+            howToPlay();
+            break;
+          case '4' :
+            leaderBoard();
+            break;
+          case '5' :
+            if (isPlaying){
+              titleAudio.onPause();
+            }
+            else if(!isPlaying){
+              titleAudio.onPlaying();
+            }
+            break;
+          case '6' :
+            credits();
+          default:  break;
+          }
+        }
+
+      //add event listener to go into game view
+      var enter = document.querySelector("#enter");
+      enter.addEventListener("click", startGame);
+
+      //add event listener to return to maze view
+      var returnMaze = document.querySelector("#returnMaze");
+      returnMaze.addEventListener("click", continueGame);
+
+      //add event listener to view instructions
+      var instruction = document.querySelector("#instruction");
+      instruction.addEventListener("click", howToPlay);
+
+      //add event listener to view leaderboard
+      var leaders = document.querySelector("#leaderBoard");
+      leaders.addEventListener("click", leaderBoard);
+
+      //add event listener to view leaderboard
+      var credit = document.querySelector("#credit");
+      credit.addEventListener("click", credits);
+
+      document.body.addEventListener("keyup", menu);
+
+      //get the audio element to use in the play and pause functions
+      var titleAudio = document.getElementById("titleAudio");
+     // titleAudio.addEventListener("click",
+      var isPlaying = false;
+
+      //function to play/pause music accordingly
+      function toggleAudio(){
+        if(isPlaying){
+          titleAudio.pause();
+        }else{
+          titleAudio.play();
+        }
+      };
+
+      //changes play value to true if music is playing
+      titleAudio.onPlaying = function() {
+        isPlaying = true;
+        console.log(isPlaying);
+        toggleAudio();
+        var playButton = document.querySelector("#toggle");
+        playButton.style = "color: red;"
+      }
+
+      //changes play value to false if music is paused
+      titleAudio.onPause = function() {
+        isPlaying = false;
+        console.log(isPlaying);
+        toggleAudio();
+        var pauseButton = document.querySelector("#toggle")
+        pauseButton.style = "color: green;"
+      }
+    </script>
+  </body>
+</html>

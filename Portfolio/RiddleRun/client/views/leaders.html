@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Leaderboard</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/leaders.css">
+  </head>
+  <body>
+    <h1>Leaderboard</h1>
+    <h2>Top 5 Players</h2>
+    <p>Name : Score</p>
+    <ol>
+    </ol>
+    <audio autoplay loop src="audio/Thunderbird.mp3">Browser does not support this file.</audio>
+    <script>
+
+      //retrieves the ten top-scoring players from the server
+      fetch("http://localhost:3000/api/players", {method:"GET", headers:{"Content-type":"application/json"}})
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          var players = [];
+          console.log("created players array");
+          for(count = 0; count < 10; count++){
+            let maxIndex = maxScore(json);
+            players.push(json[maxIndex]);
+            json.splice(maxIndex, maxIndex+1);
+          }
+          return players;
+        })
+        .then(populateLeaderBoard);
+
+      //finds the player with the highest score in the given array of players
+      function maxScore(array){
+        let maxIndex = 0
+        array.forEach((item) => {
+          if (item.score > array[maxIndex].score){
+            maxIndex = array.indexOf(item);
+          }
+        });
+        return maxIndex;
+      }
+
+      //displays the players on the leaderboard page
+      function populateLeaderBoard(players){
+        console.log(players);
+        players.forEach(function(player){
+          var list = document.querySelector("ol");
+          var item = document.createElement("li");
+          item.innerHTML = player.name + " : " + player.score;
+          list.appendChild(item);
+        });
+      }
+
+       //return to the menu
+        function menuReturn(){
+          window.location.replace("/menu");
+        }
+
+        //event listener to make spacebar trigger the above function
+  	    document.body.addEventListener("keyup", function(e){
+        if (e.key == " ")
+          menuReturn();
+        });
+    </script>
+  </body>
+</html>
