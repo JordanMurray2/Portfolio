@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Assignment3Murray}
+\author{Jordan Murray }
+\date{Due: April 17, 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Asymptotic Running time of Single Source Shortest Path}
+\noindent
+Single Source Shortest path has an asymptotic running time of O(V * E). This is because it uses nested for loops. The outer for loop runs for the number of Vertices in the Graph, and the inner for loop runs for the number of Edges in the Graph. So, V=number of Vertices and E=number of edges. This takes place in the relax method of the Bellman-Ford algorithm.So the asymptotic running time of Single Source Shortest Path for Bellman Ford is O(V * E).
+
+\section{Asymptotic Running time of Fractional Knapsack}
+\noindent
+Fractional Knapsack has an asymptotic running time of O(n * log(n)).This is because the greedy strategy makes the best choice at that time. It computes the value per pound for each item and then the "thief" takes as much of the item it can in the knapsack. If there is still room it will go to the next largest item. This works because it can take a portion of the item. Hence, the asymptotic run time of the greedy algorithm fractional Knapsack is O(n * log(n)).
+
+
+\end{document}
