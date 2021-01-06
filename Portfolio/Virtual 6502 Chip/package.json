@@ -1,0 +1,31 @@
+{
+  "name": "os-kernel-space",
+  "version": "0.0.7b",
+  "description": "All kernel space OS components built severside with Node",
+  "main": "dist/System.js",
+  "dependencies": {
+    "fast-sort": "^2.0.1",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.0"
+  },
+  "scripts": {
+    "start": "node ./dist/System.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaristGormanly/ok-kernel-space.git"
+  },
+  "keywords": [
+    "OS",
+    "Kernel"
+  ],
+  "author": "alan.labouseur brian.gormanly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaristGormanly/ok-kernel-space/issues"
+  },
+  "homepage": "https://github.com/MaristGormanly/ok-kernel-space#readme"
+}
