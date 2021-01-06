@@ -19,7 +19,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "body-parser": "~1.18.0",
-    "sequelize": "^3.30.4",
+    "sequelize": "^5.15.1",
     "sqlite": "~3.0.0",
     "sqlite3": "^4.0.4"
   }
