@@ -1,0 +1,41 @@
+{
+  int a
+  a = 5
+  string b
+  b = "alan"
+  print(a)
+  print(b)
+}$
+
+{
+  string b
+  b = "alan"
+  print(b)
+  boolean c
+  c = false
+  print(c)
+}$
+
+{
+  print(false)
+}$
+
+{
+  int a
+  a = 5
+  {
+    string a
+    a = "alan"
+    print(a)
+  }
+  print(a)
+}$
+
+{
+  int a
+  a = 5
+  int b
+  b = 3
+  a = b
+  print(a)
+}$

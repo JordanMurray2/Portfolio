@@ -1,0 +1,24 @@
+{}$
+
+{{{{{{}}}}}}$
+
+{{{{{{}}} /* comments are ignored */ }}}}$
+
+{/* comments are still ignored */ int@}$
+
+{
+  int a
+  a = a
+  string b
+  a = b
+}$
+
+{"inta"}$
+
+/*LongTestCase-EverythingExceptBooleanDeclaration*/{/*IntDeclaration*/intaintba=0b=0/*WhileLoop*/while(a!=3){print(a)while(b!=3){print(b)b=1+bif(b==2){/*PrintStatement*/print("there is no spoon"/*Thiswilldonothing*/)}}b=0a=1+a}}$
+
+{/* comments are still ignored */ int@}$
+
+{/*bad comment }$
+
+{}

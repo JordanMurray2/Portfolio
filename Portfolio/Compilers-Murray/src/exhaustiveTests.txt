@@ -1,0 +1,51 @@
+{}$
+
+{{{{{{}}}}}}$
+
+{
+  boolean a
+  "a is false
+}$
+
+{
+ "bad str1ng"
+}$
+
+{
+  int a
+  a = a
+  string b
+  a = b
+}$
+
+{"inta"}$
+
+/*LongTestCase-EverythingExceptBooleanDeclaration*/{/*IntDeclaration*/intaintba=0b=0/*WhileLoop*/while(a!=3){print(a)while(b!=3){print(b)b=1+bif(b==2){/*PrintStatement*/print("there is no spoon"/*Thiswilldonothing*/)}}b=0a=1+a}}$
+
+{
+  /* Int Declaration */
+  int a
+  int b
+  a = 0
+  b=0
+  /* While Loop */
+  while (a != 3) {
+      print(a)
+      while (b != 3) {
+          print(b)
+          b = 1 + b
+          if (b == 2) {
+          /* Print Statement */
+          print("there is no spoon" /* This will do nothing */ )
+          }
+      }
+      b = 0
+      a = 1+a
+  }
+}$
+
+{/* comments are still ignored */ int@}$
+
+{/*bad comment }$
+
+{}
