@@ -1,0 +1,45 @@
+<!--
+ * file       : index.html
+ * author     : Jordan Murray
+ * course     : CMPT 630
+ * assignment : Final Project
+ * due date   : May 23, 2021
+ * version    : 1.0
+-->
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>GoLang AES Encryption Project</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <style>
+                .title {
+                    color: #7411AD;
+                    text-align: center;
+                    background-color: black;
+                }
+                body {
+                    background-color: black;
+                }
+                label {
+                    color: white;
+                }
+                a {
+                    background-color: white;
+                    color: black;
+                    padding: 2px;
+                }
+                #response {
+                    color: white;
+                }
+            </style>
+        </head>
+        <body>
+            <h1 class="title">GoLang AES Encryption Project</h1>
+            <form enctype="multipart/form-data" action="/callme" method="post">
+                <label for="myfile">Select a file:</label>
+                <input type="file" id="myfile" name="myfile" style="color:white">
+                <button type="submit">Submit</button>
+            </form>
+        </body>
+    </html>

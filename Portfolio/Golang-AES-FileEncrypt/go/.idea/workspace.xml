@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c9d86237-e2b9-4b07-85d9-c6aecb0dbcbc" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1rdVU3COFphQzE6U80M1kHnBU90" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c9d86237-e2b9-4b07-85d9-c6aecb0dbcbc" name="Default Changelist" comment="" />
+      <created>1619305966043</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619305966043</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="419" y="234" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1619358267382">
+      <screen x="0" y="23" width="1440" height="803" />
+    </state>
+    <state x="419" y="234" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.803@0.23.1440.803" timestamp="1619358267382" />
+    <state x="100" y="123" width="1240" height="603" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1619358137181">
+      <screen x="0" y="23" width="1440" height="803" />
+    </state>
+    <state x="100" y="123" width="1240" height="603" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1440.803@0.23.1440.803" timestamp="1619358137181" />
+    <state x="397" y="258" key="com.intellij.ide.util.TipDialog" timestamp="1619394298429">
+      <screen x="0" y="23" width="1440" height="805" />
+    </state>
+    <state x="397" y="258" key="com.intellij.ide.util.TipDialog/0.23.1440.805@0.23.1440.805" timestamp="1619394298429" />
+  </component>
+</project>
